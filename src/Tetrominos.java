@@ -37,13 +37,13 @@ public class Tetrominos {
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 //System.out.println("key pressed " + e.getKeyCode());
-                if(key == KeyEvent.VK_D) {
-                    board.rotateLeft();
-                } else if (key == KeyEvent.VK_G) {
-                    board.rotateRight();
+                if(key == KeyEvent.VK_W) {
+                    board.rotate();
                 } else if (key == KeyEvent.VK_S) {
+                    board.speedUp();
+                } else if (key == KeyEvent.VK_A) {
                     board.slide(-1);
-                }  else if (key == KeyEvent.VK_F) {
+                }  else if (key == KeyEvent.VK_D) {
                     board.slide(1);
                 }
             }

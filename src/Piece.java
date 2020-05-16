@@ -11,7 +11,7 @@ public class Piece {
     Location[] locations;
     Graphics g;
     boolean isActive;
-    private static HashMap<Integer,Character> type2color = new HashMap<>() {{
+    private static final HashMap<Integer,Character> color2type = new HashMap<>() {{
         put(0, 'I');
         put(1, 'J');
         put(2, 'L');
@@ -20,27 +20,49 @@ public class Piece {
         put(5, 'T');
         put(6, 'Z');
     }};
-    public Piece(int colorIndex, Graphics g) {
+    public Piece(int colorIndex) {
         this.isActive = true;
         this.scale = 20;
         this.initialX = 160;
         this.initialY = 0;
         this.locations = new Location[4];
         this.colorIndex = colorIndex;
-        this.g = g;
-        this.type = type2color.get(this.colorIndex);
+        this.type = color2type.get(this.colorIndex);
         this.blocks = new Block[4];
-        this.createBlocks();
+        this.initialLocationWithShape();
 
     }
-
-    public void createBlocks() {
+    public int getLeft() {
+        // get the most left side block location
+        int mostLeft = Integer.MAX_VALUE;
+        for(int i = 0; i < 4; i++) {
+            mostLeft = Math.min(mostLeft, this.locations[i].x);
+        }
+        return mostLeft;
+    }
+    public int getRight() {
+        // get the most right side block location
+        int mostRight = 0;
+        for(int i = 0; i < 4; i++) {
+            mostRight = Math.max(mostRight, this.locations[i].x + scale);
+        }
+        return mostRight;
+    }
+    public int getBottom() {
+        // get the bottom of the blocks
+        int mostBottom = 0;
+        for(int i = 0; i < 4; i++) {
+            mostBottom = Math.max(mostBottom, this.locations[i].y + scale);
+        }
+        return mostBottom;
+    }
+    public void drawPiece(Graphics g) {
         //create four blocks
-        this.initialLocationWithShape();
+
 
         for(int i = 0; i < this.blocks.length; i++) {
             this.blocks[i] = new Block(this.colorIndex);
-            this.blocks[i].draw(this.g, this.scale, this.locations[i].x, this.locations[i].y);
+            this.blocks[i].draw(g, this.scale, this.locations[i].x, this.locations[i].y);
         }
 
 
