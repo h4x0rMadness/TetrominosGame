@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -5,6 +6,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.JLabel;
 
 // The class that sets up the user interface
 // for the Tetrominos game. You will not need to
@@ -26,7 +28,8 @@ public class Tetrominos {
         frame.setResizable(false);
         frame.setVisible(true);
 
-        Timer timer = new Timer(1000, new ActionListener() {
+
+        Timer timer = new Timer(300, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 board.nextTurn();
             }
@@ -43,7 +46,7 @@ public class Tetrominos {
                     board.speedUp();
                 } else if (key == KeyEvent.VK_A) {
                     board.slide(-1);
-                }  else if (key == KeyEvent.VK_D) {
+                } else if (key == KeyEvent.VK_D) {
                     board.slide(1);
                 }
             }

@@ -1,10 +1,14 @@
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.Timer;
 
 import javax.swing.*;
+
+import static java.lang.Thread.sleep;
 
 class Board extends JComponent {
 
@@ -16,25 +20,41 @@ class Board extends JComponent {
     private boolean hasActive;
     private List<Piece> pieces ;
     private boolean[][] isOccupied;
-    private int score;
+    private int SCORE;
+    private final int BONUS = 100;
+    private final static Color[] colorTable = {
+            Color.red,
+            Color.blue,
+            Color.magenta,
+            Color.orange,
+            Color.green,
+            Color.cyan,
+            Color.yellow,
+    };
     public Board(int cols, int rows) {
         super();
         setPreferredSize(new Dimension(cols * SCALE, rows * SCALE));
         pieces = new ArrayList<>();
         hasActive = false;
         isOccupied = new boolean[cols][rows];
-        score = 0;
+        SCORE = 0;
     }
 
 
     public void paintComponent(Graphics g) {
+
         // check is row is full (to sink) or col is full (game over)
         checkRow(g);
-        checkCol(g);
+        //checkCol(g);
 
         // clear the screen with black
         g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
+        // display score and play time
+        showGameInfo(g);
+        // test my kick ass score adding function
+
+
         // draw all inactive pieces
         for(Piece p : pieces) p.drawPiece(g);
         // if active exists, draw it with current location
@@ -78,36 +98,51 @@ class Board extends JComponent {
         for(int i = 0; i < isOccupied.length; i++) {
             isFull &= isOccupied[i][isOccupied[0].length - 1];
         }
-
         // if full, sink every inactive piece
         // modify isOccupied
         // and add score
         if(isFull) {
             sink(g);
-            //repaint();
+            scoreUpdate(g, 1);
         }
-
     }
     public void sink(Graphics g) {
-        //for(boolean[] ba : isOccupied) {
-        //    for(boolean b : ba) {
-        //        b = false;
-        //    }
-        //}
+        for(int i = isOccupied[0].length - 1; i >= 0; i--) {
+            if(i == 0) {
+                for(boolean b : isOccupied[i]) b = false;
+            }
+            else {
+                for(int j = 0; j < isOccupied.length; j++) {
+                    isOccupied[j][i] = isOccupied[j][i - 1];
+                }
+            }
+        }
         for(Piece p : pieces) {
             for(int i = 0; i < 4; i++) {
                 p.locations[i].y += SCALE;
-                if(p.locations[i].y < isOccupied[0].length) {
-                    //isOccupied[p.locations[i].x / SCALE][p.locations[i].y / SCALE] = true;
-                    p.blocks[i].draw(g, SCALE, p.locations[i].x, p.locations[i].y);
-                }
+                p.blocks[i].draw(g, SCALE, p.locations[i].x, p.locations[i].y);
             }
         }
         repaint();
 
 
     }
+    public void scoreAddingEffects(Graphics g) {
+        System.out.println("score adding is called...");
+        g.setFont(new Font("Arial Black", Font.ITALIC, 32));
+        Random rand = new Random();
 
+        g.setColor(colorTable[rand.nextInt(7)]);
+        String text = "SCORE +100 !";
+        g.drawString(text, 80, 400);
+
+    }
+    public void scoreUpdate(Graphics g, int extra) {
+        SCORE += BONUS * extra;
+        // show some kick-ass cool animation (or not) for gamer
+        scoreAddingEffects(g);
+
+    }
 
     public void slide(int dx) {
         // TO DO: move the active piece one square in the direction dx
@@ -173,6 +208,13 @@ class Board extends JComponent {
         }
 
 
+    }
+    public void showGameInfo(Graphics g) {
+        // display score and / or play time
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 16));
+        g.setColor(Color.white);
+        String text = "Game Score: " + SCORE;
+        g.drawString(text, 0, 20);
     }
 
 }
