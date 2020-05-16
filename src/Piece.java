@@ -9,7 +9,6 @@ public class Piece {
     int colorIndex;
     Block[] blocks;
     Location[] locations;
-    Graphics g;
     boolean isActive;
     private static final HashMap<Integer,Character> color2type = new HashMap<>() {{
         put(0, 'I');
