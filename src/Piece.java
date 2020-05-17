@@ -73,6 +73,13 @@ public class Piece {
                     isInsideBorder(x + SCALE, y + SCALE * 2)
             );
         }
+        else if (colorIndex == 4) {
+            return (isInsideBorder(x,y) &&
+                    isInsideBorder(x + SCALE * 2, y) &&
+                    isInsideBorder(x, y + SCALE * 2) &&
+                    isInsideBorder(x + SCALE, y + SCALE *3)
+            );
+        }
 
         return false;
     }

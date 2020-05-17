@@ -90,17 +90,24 @@ class Board extends JComponent {
     }
 
     public void endGame(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(Color.orange);
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setFont(new Font("Arial Black", Font.PLAIN, 36));
-        g.setColor(Color.green);
 
+        g.setFont(new Font("Arial Black", Font.PLAIN, 36));
+        g.setColor(Color.red);
         String text = "GAME OVER";
         g.drawString(text, 60, 360);
-        g.setColor(Color.white);
+
+        g.setColor(Color.black);
         g.setFont(new Font("Arial Black", Font.ITALIC, 30));
         String scoreMsg = "SCORE: " + SCORE;
         g.drawString(scoreMsg,100,420);
+
+        g.setFont(new Font("Arial Black", Font.PLAIN, 16));
+        g.setColor(Color.black);
+        String authorText = "@author: kefan zhang";
+        g.drawString(authorText, 100, 700);
+
     }
     public void checkCol(Graphics g) {
         // check if any col is full
