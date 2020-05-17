@@ -14,8 +14,7 @@ class Board extends JComponent {
 
     private static final int SCALE = 20; // number of pixels per square
 
-    private int cols;
-    private int rows;
+    
     private Piece activePiece;
     private List<Piece> pieces ;
     private boolean[][] isOccupied;
@@ -26,6 +25,8 @@ class Board extends JComponent {
     private int extra;
     private int times;
     private boolean endGame = false;
+    private final int cols;
+    private final int rows;
     private final static Color[] colorTable = {
             Color.red,
             Color.blue,
@@ -35,8 +36,10 @@ class Board extends JComponent {
             Color.cyan,
             Color.yellow,
     };
-    public Board(int cols, int rows) {
+    public Board(int c, int r) {
         super();
+        cols = c;
+        rows = r;
         setPreferredSize(new Dimension(cols * SCALE, rows * SCALE));
         pieces = new ArrayList<>();
         isOccupied = new boolean[cols][rows];
@@ -193,7 +196,7 @@ class Board extends JComponent {
 
     public void createNextPiece(Graphics g) {
         Random rand = new Random();
-        activePiece = new Piece(rand.nextInt(7));
+        activePiece = new Piece(rand.nextInt(7), cols, rows);
 
     }
     public void movePiece(Piece piece, int dx, int dy) {
@@ -201,7 +204,7 @@ class Board extends JComponent {
         if(dy < 0) return; // Piece can't go upward
         // Piece will be inactive when collide with other Pieces in any direction
         // Piece can't go outside left or right border
-        if(piece.getRight() + dx > 400 || piece.getLeft() + dx < 0 ||
+        if(piece.getRight() + dx > SCALE * cols || piece.getLeft() + dx < 0 ||
                 isOccupied[(piece.locations[0].x + dx) / SCALE][piece.locations[0].y / SCALE] ||
                 isOccupied[(piece.locations[1].x + dx) / SCALE][piece.locations[1].y / SCALE] ||
                 isOccupied[(piece.locations[2].x + dx) / SCALE][piece.locations[2].y / SCALE] ||
@@ -211,7 +214,7 @@ class Board extends JComponent {
         }
 
         // Piece will be inactive when collide with the bottom border
-        if(piece.getBottom() + dy > 800 ||
+        if(piece.getBottom() + dy > SCALE * rows ||
                 isOccupied[piece.locations[0].x / SCALE][(piece.locations[0].y + dy) / SCALE] ||
                 isOccupied[piece.locations[1].x / SCALE][(piece.locations[1].y + dy) / SCALE] ||
                 isOccupied[piece.locations[2].x / SCALE][(piece.locations[2].y + dy) / SCALE] ||
