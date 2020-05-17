@@ -26,6 +26,7 @@ class Board extends JComponent {
     private long startTime;
     private int extra;
     private int times;
+    private boolean endGame = false;
     private final static Color[] colorTable = {
             Color.red,
             Color.blue,
@@ -45,14 +46,18 @@ class Board extends JComponent {
         startTime = System.currentTimeMillis();
         extra = 1;
         times = 0;
+
     }
 
 
     public void paintComponent(Graphics g) {
-
+        if(endGame) {
+            endGame(g);
+            return;
+        }
         // check is row is full (to sink) or col is full (game over)
         checkRow(g);
-        //checkCol(g);
+        checkCol(g);
         updateTimeBonus();
         // clear the screen with black
         g.setColor(Color.black);
@@ -93,21 +98,30 @@ class Board extends JComponent {
         }
     }
     public void endGame(Graphics g) {
-        System.out.println("Game Over!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("endGame is called...");
+
+        g.setColor(Color.red);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setFont(new Font("Arial Black", Font.PLAIN, 36));
+        g.setColor(Color.green);
+
+        String text = "GAME OVER";
+        g.drawString(text, 60, 360);
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial Black", Font.ITALIC, 30));
+        String scoreMsg = "SCORE: " + SCORE;
+        g.drawString(scoreMsg,100,420);
     }
     public void checkCol(Graphics g) {
         // check if any col is full
         // if so, show game over and final score
-        boolean isFull = true;
-        for(boolean[] bool_arr : isOccupied) {
-            for(boolean bool : bool_arr) {
-                isFull &= bool;
-            }
-            if(isFull) {
-                endGame(g);
-                return;
-            }
-            else isFull = true;
+        boolean isFull = false;
+        for(int i = 0; i < isOccupied.length; i++) isFull |= isOccupied[i][0];
+        System.out.println();
+        //System.out.println("after or operation, isFull is: " + isFull);
+        if(isFull) {
+            endGame = true;
+            repaint();
         }
     }
     public void checkRow(Graphics g) {
@@ -146,7 +160,7 @@ class Board extends JComponent {
 
     }
     public void scoreAddingEffects(Graphics g) {
-        System.out.println("score adding is called...");
+        //System.out.println("score adding is called...");
         g.setFont(new Font("Arial Black", Font.ITALIC, 32));
         Random rand = new Random();
 
