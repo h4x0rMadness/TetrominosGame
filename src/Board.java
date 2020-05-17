@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.util.*;
 import java.util.List;
-import java.util.Timer;
+
 
 import javax.swing.*;
 
-import static java.lang.Thread.sleep;
+
 
 class Board extends JComponent {
 
@@ -17,7 +17,6 @@ class Board extends JComponent {
     private int cols;
     private int rows;
     private Piece activePiece;
-    private boolean hasActive;
     private List<Piece> pieces ;
     private boolean[][] isOccupied;
     private int SCORE;
@@ -40,7 +39,6 @@ class Board extends JComponent {
         super();
         setPreferredSize(new Dimension(cols * SCALE, rows * SCALE));
         pieces = new ArrayList<>();
-        hasActive = false;
         isOccupied = new boolean[cols][rows];
         SCORE = 0;
         startTime = System.currentTimeMillis();
@@ -78,8 +76,6 @@ class Board extends JComponent {
         activePiece.drawPiece(g);
     }
 
-    // Move the active piece down one step. Check for collisions.
-    //  Check for complete rows that can be destroyed.
     public void nextTurn() {
         if(activePiece != null) {
             movePiece(activePiece, 0, SCALE);
@@ -89,17 +85,8 @@ class Board extends JComponent {
         // if no exist, call paint/paintComponents to create one randomly
 
     }
-    public void updateTimeBonus() {
-        long elapseTime = System.currentTimeMillis() - startTime;
 
-        if((int)elapseTime / 60000 > times) {
-            times = (int) elapseTime / 60000;
-            extra *= times;
-        }
-    }
     public void endGame(Graphics g) {
-        System.out.println("endGame is called...");
-
         g.setColor(Color.red);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setFont(new Font("Arial Black", Font.PLAIN, 36));
@@ -117,7 +104,7 @@ class Board extends JComponent {
         // if so, show game over and final score
         boolean isFull = false;
         for(int i = 0; i < isOccupied.length; i++) isFull |= isOccupied[i][0];
-        System.out.println();
+        //System.out.println();
         //System.out.println("after or operation, isFull is: " + isFull);
         if(isFull) {
             endGame = true;
@@ -199,7 +186,8 @@ class Board extends JComponent {
     public void rotate() {
         // TO DO: rotate the active piece to the right:
         //System.out.println("rotateRight is called...");
-
+        if(activePiece != null)
+            activePiece.rotate();
         repaint();
     }
 
@@ -251,5 +239,12 @@ class Board extends JComponent {
         String text = "Game Score: " + SCORE;
         g.drawString(text, 0, 20);
     }
+    public void updateTimeBonus() {
+        long elapseTime = System.currentTimeMillis() - startTime;
 
+        if((int)elapseTime / 60000 > times) {
+            times = (int) elapseTime / 60000;
+            extra *= times;
+        }
+    }
 }

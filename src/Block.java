@@ -13,8 +13,8 @@ class Block {
                                     Color.cyan,
                                     Color.yellow};
 
-    public Block(int colorIndex) {
-        this.colorIndex = colorIndex;
+    public Block(int color) {
+        colorIndex = color;
 
     }
 
