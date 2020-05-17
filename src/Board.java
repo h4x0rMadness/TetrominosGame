@@ -248,6 +248,11 @@ class Board extends JComponent {
         g.setColor(Color.white);
         String text = "Game Score: " + SCORE;
         g.drawString(text, 0, 20);
+        // display current time bonus
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 16));
+        g.setColor(Color.white);
+        String bonusText = "Play Time Bonus: x" + extra ;
+        g.drawString(bonusText, 0, 40);
     }
     public void updateTimeBonus() {
         long elapseTime = System.currentTimeMillis() - startTime;

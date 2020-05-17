@@ -13,8 +13,18 @@ import javax.swing.JLabel;
 // edit this file, but it might be worth reading through it.
 
 public class Tetrominos {
+    public static int speedRate(long startTime) {
+        // speed++ every minute
+        // which means this function returns +1 rate every passing 60000 ms
+        long elapseTime = System.currentTimeMillis() - startTime;
+        int passingMinute = (int) (elapseTime / 10000);
+        System.out.println("passingMinute: " + passingMinute);
+        System.out.println("rate given: " + (passingMinute + 1));
+        System.out.println("called Interval: " + 1000 / (passingMinute + 1));
+        return passingMinute + 1;
 
-    private static void createAndShowGUI() {
+    }
+    private static void createAndShowGUI(long startTime) {
         //Create and set up the window.
         JFrame frame = new JFrame("Tetrominos!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,11 +40,14 @@ public class Tetrominos {
 
 
         Timer timer = new Timer(1000, new ActionListener() {
+
             public void actionPerformed(ActionEvent evt) {
                 board.nextTurn();
+
             }
 
         });
+
 
         frame.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
@@ -64,9 +77,10 @@ public class Tetrominos {
     }
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+                createAndShowGUI(startTime);
             }
         });
 
