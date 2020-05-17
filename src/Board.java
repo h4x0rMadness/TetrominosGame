@@ -22,6 +22,10 @@ class Board extends JComponent {
     private boolean[][] isOccupied;
     private int SCORE;
     private final int BONUS = 100;
+    private int hasScoreAdding = 0;
+    private long startTime;
+    private int extra;
+    private int times;
     private final static Color[] colorTable = {
             Color.red,
             Color.blue,
@@ -38,6 +42,9 @@ class Board extends JComponent {
         hasActive = false;
         isOccupied = new boolean[cols][rows];
         SCORE = 0;
+        startTime = System.currentTimeMillis();
+        extra = 1;
+        times = 0;
     }
 
 
@@ -46,14 +53,17 @@ class Board extends JComponent {
         // check is row is full (to sink) or col is full (game over)
         checkRow(g);
         //checkCol(g);
-
+        updateTimeBonus();
         // clear the screen with black
         g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
         // display score and play time
         showGameInfo(g);
         // test my kick ass score adding function
-
+        if(hasScoreAdding > 0) {
+            scoreAddingEffects(g);
+            hasScoreAdding -= 1;
+        }
 
         // draw all inactive pieces
         for(Piece p : pieces) p.drawPiece(g);
@@ -73,6 +83,14 @@ class Board extends JComponent {
         // if exists active, update location
         // if no exist, call paint/paintComponents to create one randomly
 
+    }
+    public void updateTimeBonus() {
+        long elapseTime = System.currentTimeMillis() - startTime;
+
+        if((int)elapseTime / 60000 > times) {
+            times = (int) elapseTime / 60000;
+            extra *= times;
+        }
     }
     public void endGame(Graphics g) {
         System.out.println("Game Over!!!!!!!!!!!!!!!!!!!!!");
@@ -103,7 +121,7 @@ class Board extends JComponent {
         // and add score
         if(isFull) {
             sink(g);
-            scoreUpdate(g, 1);
+            scoreUpdate(g);
         }
     }
     public void sink(Graphics g) {
@@ -133,14 +151,17 @@ class Board extends JComponent {
         Random rand = new Random();
 
         g.setColor(colorTable[rand.nextInt(7)]);
-        String text = "SCORE +100 !";
+
+        String text = "SCORE +" + extra * BONUS;
         g.drawString(text, 80, 400);
 
+
     }
-    public void scoreUpdate(Graphics g, int extra) {
+    public void scoreUpdate(Graphics g) {
         SCORE += BONUS * extra;
         // show some kick-ass cool animation (or not) for gamer
-        scoreAddingEffects(g);
+        hasScoreAdding = 2;
+        repaint();
 
     }
 

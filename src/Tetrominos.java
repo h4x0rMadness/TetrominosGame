@@ -29,7 +29,7 @@ public class Tetrominos {
         frame.setVisible(true);
 
 
-        Timer timer = new Timer(300, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 board.nextTurn();
             }
