@@ -14,8 +14,6 @@ import javax.swing.JLabel;
 
 public class Tetrominos {
     public static int speedRate(long startTime) {
-        // speed++ every minute
-        // which means this function returns +1 rate every passing 60000 ms
         long elapseTime = System.currentTimeMillis() - startTime;
         int passingMinute = (int) (elapseTime / 10000);
         System.out.println("passingMinute: " + passingMinute);
