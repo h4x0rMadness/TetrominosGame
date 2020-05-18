@@ -30,7 +30,13 @@ git clone https://github.com/h4x0rMadness/TetrominosGame.git
 
 - [x] seven shapes of blocks
 - [x] rotation supported (rotation rules down below)
+- [x] of course, boudary check applied
 
+## References
+
+#### Original Educative Course: [the complete java crash course](https://www.educative.io/courses/the-complete-java-crash-course)
+
+#### Tetrominos Rotation Rules
 <p align="center">
     <img src="https://github.com/h4x0rMadness/TetrominosGame/blob/master/imgs/4.png" width="70%"/>
 </p>
