@@ -32,6 +32,13 @@ git clone https://github.com/h4x0rMadness/TetrominosGame.git
 - [x] rotation supported (rotation rules [here](https://github.com/h4x0rMadness/TetrominosGame/blob/master/README.md#tetrominos-rotation-rules))
 - [x] of course, boudary check applied
 
+## Project Future To-dos:
+
+- [ ] find a way to make game pace faster with longer play time
+- [ ] in-game restart and high score recorder maybe
+- [ ] some shiny kick-ass cool effects
+- [ ] bug free
+
 ## References
 
 #### Original Educative Course: [the complete java crash course](https://www.educative.io/courses/the-complete-java-crash-course)
@@ -40,3 +47,4 @@ git clone https://github.com/h4x0rMadness/TetrominosGame.git
 <p align="center">
     <img src="https://github.com/h4x0rMadness/TetrominosGame/blob/master/imgs/4.png" width="70%"/>
 </p>
+
