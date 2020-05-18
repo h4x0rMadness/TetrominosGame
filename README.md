@@ -29,7 +29,7 @@ git clone https://github.com/h4x0rMadness/TetrominosGame.git
 ## Details of game
 
 - [x] seven shapes of blocks
-- [x] rotation supported (rotation rules down below)
+- [x] rotation supported (rotation rules [here](https://github.com/h4x0rMadness/TetrominosGame/blob/master/README.md#tetrominos-rotation-rules))
 - [x] of course, boudary check applied
 
 ## References
